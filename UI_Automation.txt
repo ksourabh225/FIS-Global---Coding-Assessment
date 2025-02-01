@@ -1,0 +1,24 @@
+
+
+describe('Ebay Add to Cart Test', () => {
+  beforeEach(() => {
+    cy.visit('https://www.ebay.com');
+  });
+
+  it('should add a book to the cart and verify the cart count', () => {
+    // Search for 'book'
+    cy.get('input[aria-label="Search for anything"]')
+      .type('book{enter}');
+    
+    // Click on the first book in the search results
+    cy.get('[id*=item]').first().invoke('removeAttr', 'target').click();
+    
+    // Click on 'Add to cart'
+    cy.get('a[href*=add]:visile').click();
+    
+    // Verify cart count has been updated
+    cy.get('[class=badge]')
+      .should('be.visible')
+      .and('not.have.text', '0');
+  });
+});

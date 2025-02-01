@@ -1,0 +1,27 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.*;
+
+public class BitcoinPriceAPITest {
+
+    @Test
+    public void testBitcoinPriceAPI() {
+        // Base URL
+        String url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+
+        // Send GET request
+        Response response = RestAssured.get(url);
+
+        // Verify Status Code is 200
+        response.then().statusCode(200);
+
+        // Validate the presence of USD, GBP, and EUR
+        response.then().body("bpi.USD", notNullValue());
+        response.then().body("bpi.GBP", notNullValue());
+        response.then().body("bpi.EUR", notNullValue());
+
+        // Validate GBP description equals 'British Pound Sterling'
+        response.then().body("bpi.GBP.description", equalTo("British Pound Sterling"));
+    }
+}
