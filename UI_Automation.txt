@@ -5,6 +5,7 @@ describe('Ebay Add to Cart Test', () => {
     cy.visit('https://www.ebay.com');
   });
 
+
   it('should add a book to the cart and verify the cart count', () => {
     // Search for 'book'
     cy.get('input[aria-label="Search for anything"]')
